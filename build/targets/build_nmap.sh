@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -z "$GITHUB_WORKSPACE" ];then
-    echo "GITHUB_WORKSPACE environemnt variable not set!"
+    echo "GITHUB_WORKSPACE environment variable not set!"
     exit 1
 fi
 if [ "$#" -ne 1 ];then
@@ -28,6 +28,9 @@ build_nmap() {
             --host="$(get_host_triple)" \
             --without-ndiff \
             --without-zenmap \
+            --without-ncat \
+            --without-nping \
+            --without-liblua \
             --without-nmap-update \
             --without-libssh2 \
             --with-pcap=linux \
