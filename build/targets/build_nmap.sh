@@ -41,7 +41,7 @@ build_nmap() {
 }
 
 main() {
-    lib_build_openssl
+    lib_build_openssl "tags/openssl-3.3.0"
     build_nmap
     if [ ! -f "${BUILD_DIRECTORY}/nmap/nmap" -o ];then
         echo "[-] Building Nmap ${CURRENT_ARCH} failed!"
