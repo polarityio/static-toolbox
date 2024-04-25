@@ -37,15 +37,13 @@ build_nmap() {
             --with-openssl="${BUILD_DIRECTORY}/openssl"
     sed -i -e "s/shared\: /shared\: #/" "${BUILD_DIRECTORY}/nmap/libpcap/Makefile"
     make
-    strip nmap ncat/ncat nping/nping
+    strip nmap
 }
 
 main() {
     lib_build_openssl
     build_nmap
-    if [ ! -f "${BUILD_DIRECTORY}/nmap/nmap" -o \
-         ! -f "${BUILD_DIRECTORY}/nmap/ncat/ncat" -o \
-         ! -f "${BUILD_DIRECTORY}/nmap/nping/nping" ];then
+    if [ ! -f "${BUILD_DIRECTORY}/nmap/nmap" -o ];then
         echo "[-] Building Nmap ${CURRENT_ARCH} failed!"
         exit 1
     fi
@@ -55,8 +53,6 @@ main() {
         NMAP_VERSION="-${NMAP_VERSION}"
     fi
     cp "${BUILD_DIRECTORY}/nmap/nmap" "${OUTPUT_DIRECTORY}/nmap${NMAP_VERSION}"
-    cp "${BUILD_DIRECTORY}/nmap/ncat/ncat" "${OUTPUT_DIRECTORY}/ncat${NMAP_VERSION}"
-    cp "${BUILD_DIRECTORY}/nmap/nping/nping" "${OUTPUT_DIRECTORY}/nping${NMAP_VERSION}"
     echo "[+] Finished building Nmap ${CURRENT_ARCH}"
     NMAP_COMMIT=$(cd "${BUILD_DIRECTORY}/nmap/" && git rev-parse --short HEAD)
     NMAP_DIR="${OUTPUT_DIRECTORY}/nmap-data${NMAP_VERSION}-${NMAP_COMMIT}"
